@@ -1,0 +1,65 @@
+[협상 & 우선 순위 - Quality Values(q)]
+1. Quality Values(q) 값 사용
+  - 0~1, 클수록 높은 우선 순위
+  - 생략하면 1
+  - ex) Accept-Language : ko-Kr,ko;q=0.9 , en-US;q=0.8 , en;q=0.7
+	(1) ko-KR;q=1 (q 생략)
+	(2) ko;q=0.9
+	(3) en-US;q=0.8
+	(4) en:q=0.7
+2. 구체적인 것이 우선 됨
+  - ex) Accept : text/*, text/plain, text/plain;format=flowed, */*
+	(1) text/plain;format=flowed
+	(2) text.plain
+	(3) text/*
+	(4) */*
+3. 구체적인 걸 기준으로 미디어 타입을 맞춤
+  - ex) Accept : text/*;q=0.3, text/html;q=0.7, text/html;level=1, text/html;level=2;q=0.4, */*;q=0.5
+
+
+[전송 방식]
+1. 단순 전송
+2. 압축 전송 (Content Encoding 추가 필요)
+3. 분할 전송
+4. 범위 전송 (Range, Content-Range)
+
+
+[일반 정보]
+1. From : 유저 에이전트의 이메일 정보
+	- 보통 사용 X
+	- 검색 엔진 등에서 요청할 때 사용
+2. Referer : 이전 웹 페이지 주소
+	- 현재 요청된 페이지의 이전 웹 페이지 주소
+	- A => B 로 이동하는 경우, B를 요청 시 Referer : A 를 포함하여 요청
+	- Referer 를 사용하여 유입 경로 분석 가능
+	- 요청에서 사용
+	- 참고 : referer 는 단어 referrer의 오타
+3. User-Agent : 유저 에이전트 어플리케이션 정보
+	- 클라이언트의 어플리케이션 정보 (웹 브라우저 정보 등)
+	- 통계 정보
+	- 어떤 종류의 브라우저에서 장애가 발생하는지 파악 가능
+	- 요청에서 사용
+4. Server : 요청을 처리하는 오리진 서버의 소프트웨어 정보
+	- 응답에서 사용
+5. Date : 메세지가 생성된 날짜
+	- 응답에서 사용
+
+
+[특별한 정보]
+1. Host : 요청한 호스트 정보 (도메인)
+	- 요청에서 사용
+	- 필수
+	- 하나의 서버가 여러 도메인을 처리할 때 
+	- 하나의 IP 주소에 여러 도메인이 적용되어 있을 때
+2. Location : 페이지 Redirection
+	- 웹 브라우저는 3xx 응답 결과에 Location 헤더가 있으면, Location 위치로 자동 이동 (Redirect)
+	- 응답 코드 3xx 에서 설명
+	- 201 (Created) : Location 값은 요청에 의해 생성된 리소스 URI
+	- 3xx (Redirection) : Location 값은 요청을 자동으로 redirection하기 위해 대상 리소스를 가리킴
+3. Allow : 허용 가능한 HTTP 메서드
+	- 405 (Method Not Allowed) 에서 응답에 포함해야함
+	- Allow : GET, HEAD, PUT
+4. Retry-After : 유저 에이전트가 다음 요청을 하기까지 기다려야 하는 시간
+	- 503 (Service Unavailable) : 서비스가 언제까지 불능인지 알려줄 수 있음
+	- Retry-After : Fri, 31 DEC 1999 GMT (날짜 표기)
+	- Retry-After : 120 (초 단위 표기)
